@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="map2" tilewidth="32" tileheight="32" tilecount="264" columns="22">
+  <image source="thank2.png" width="704" height="384"/>
+ </tileset>
+ <tileset firstgid="265" name="map" tilewidth="32" tileheight="32" tilecount="450" columns="25">
+  <image source="spritelib_gpl/maze/tankbrigade.png" width="800" height="600"/>
+ </tileset>
+ <layer name="块层 1" width="10" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="对象层 1"/>
+ <layer name="块层 2" width="10" height="10">
+  <data encoding="csv">
+53,68,68,68,70,68,68,68,68,68,
+70,70,70,70,70,70,70,70,70,70,
+53,70,31,70,31,70,31,31,70,53,
+53,31,70,70,31,70,70,31,70,53,
+53,70,70,70,31,31,70,31,70,53,
+53,70,70,31,70,70,70,31,70,53,
+53,70,70,70,70,70,70,31,70,53,
+70,70,31,70,31,70,31,70,70,70,
+53,70,70,70,70,70,70,70,70,53,
+53,67,67,67,70,67,67,67,67,53
+</data>
+ </layer>
+</map>

@@ -1,0 +1,106 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){
+		
+		var theCanvas = null,
+		    context = null,
+			count = 0,
+			tileSheet = new Image(),
+			animationFrames = [1,2,3,4,5,6,7,8]
+			frameIndex = 0,
+			sourceX = 0,
+			sourceY = 0,
+			x=50,
+			y=50
+			dx=0,
+			dy=-1;
+		
+		tileSheet.addEventListener('load',eventShipLoaded,false);
+			
+		tileSheet.src = "thank.png";	
+		
+		function eventShipLoaded(){
+		
+			starUp();			
+		
+		}	
+				
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+			var theCanvas=document.getElementById('canvas'),
+				context = theCanvas.getContext('2d');		
+		}
+		
+		drawScreen();
+		
+		function drawScreen(){
+			
+			x+=dx;
+			y+=dy;
+			
+			if(y<0){
+					
+				dy=1;
+				
+			}
+			if(y>150){
+					
+				dy=-1;
+				
+			}
+			
+			
+			context.fillStyle = "#eee";	
+			context.fillRect(0,0,500,500);
+			context.drawImage(tileSheet,sourceX,sourceY,32,32,x,y,32,32);
+			
+			sourceX = Math.floor(animationFrames[frameIndex]%8)*32;
+			sourceY = Math.floor(animationFrames[frameIndex]/8)*32;
+			
+			frameIndex ++;
+			if(frameIndex==animationFrames.length){
+				
+				frameIndex = 0;
+				
+			}
+			
+		}
+	
+		function starUp(){
+			
+			setInterval(drawScreen,100);
+			
+		}
+	}	
+</script>
+	
+</body>
+</html>

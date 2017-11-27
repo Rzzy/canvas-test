@@ -1,0 +1,148 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" width="1650px" height="900px">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){		
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+				var theCanvas=document.getElementById('canvas'),
+					context = theCanvas.getContext('2d');		
+		}		
+		
+		var shipState = 0;
+		var rotation = 270;
+		var x = 50;
+		var y = 50;
+		var facingX = 0;
+		var facingY = 0;
+		var movingX = 0;
+		var movingY = 0;
+		var width = 20;
+		var height = 20;
+		var rotationVelocity = 5;
+		var thrustAcceleration = 0.03;
+		var keyPressList = [];
+		
+		
+		//context.globalAlpha = 1;
+		
+		drawScreen();
+		
+		function drawScreen(){			
+			
+			var angleInRadius = Math.PI*rotation/180;			
+			
+			
+			
+			if(keyPressList[38]==true){
+			
+				angleInRadius = rotation*Math.PI/180;	
+				facingX = Math.cos(angleInRadius);
+				facingY = Math.sin(angleInRadius);
+				
+				movingX+=thrustAcceleration*facingX;
+				movingY+=thrustAcceleration*facingY;
+			}
+			
+			if(keyPressList[37]==true){
+			
+				rotation-=rotationVelocity;
+			
+			}
+			
+			if(keyPressList[39]==true){
+			
+				rotation+=rotationVelocity;
+			
+			}
+			
+			x+=movingX;
+			y+=movingY;
+						
+			context.fillStyle = "#000";
+			context.fillRect(0,0,theCanvas.width,theCanvas.height);
+			
+			context.fillStyle = "#fff";
+			context.font = "16px _sans";
+			context.textBaseline = "top";
+			context.fillText("Player Ship - Static",10,470);
+			
+			context.save();
+			context.setTransform(1,0,0,1,0,0);
+			context.translate(x,y);
+			context.rotate(Math.PI*(rotation-270)/180);
+			
+			context.fillStyle="yellow";
+			context.strokeStyle="#e50000";
+			context.beginPath();
+			context.moveTo(10-0.5*width,0-0.5*height);
+			context.lineTo(19-0.5*width,19-0.5*height);
+			context.lineTo(10-0.5*width,9-0.5*height);
+			context.moveTo(9-0.5*width,9-0.5*height);
+			context.lineTo(0-0.5*width,19-0.5*height);
+			context.lineTo(9-0.5*width,0-0.5*height);
+			context.fill();
+							
+			context.moveTo(8-0.5*width,13-0.5*height);
+			context.lineTo(11-0.5*width,13-0.5*height);
+			context.moveTo(9-0.5*width,14-0.5*height);
+			context.lineTo(9-0.5*width,18-0.5*height);
+			context.moveTo(10-0.5*width,14-0.5*height);
+			context.lineTo(10-0.5*width,18-0.5*height);				
+						
+			context.stroke();
+			context.closePath();
+			
+			context.restore();			
+			
+		}
+		
+		const FRAME_RATE = 40;
+		var intervalTime = 1000/FRAME_RATE;		
+		setInterval(drawScreen,intervalTime);
+		
+		document.onkeydown = function(e){
+			
+			e=e?e:window.event;
+			keyPressList[e.keyCode]=true;
+			console.log(e.keyCode);
+		}
+		
+		document.onkeyup = function(e){
+		
+			e=e?e:window.event;
+			keyPressList[e.keyCode]=false;
+		
+		}
+		
+	}	
+</script>
+	
+</body>
+</html>

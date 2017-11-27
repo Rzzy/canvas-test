@@ -1,0 +1,106 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" width="1500px" height="800px">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){		
+		
+		var theCanvas = document.getElementById('canvas'),
+			context = null,			
+			speed = 6,
+			radius = 10,			
+			angle = 295,
+			gravity=0.08,
+			elasticity = 0.5,
+			friction = 0.008;
+			radians = angle*Math.PI/180,
+			vx = Math.cos(radians)*speed,
+			vy = Math.sin(radians)*speed,
+			p1 = {x:20,y:theCanvas.height-radius},			
+			ball = {x:p1.x,y:p1.y,velocityx:vx,velocityy:vy},			
+			pointImg = new Image(),
+			points = [];
+		
+		pointImg.src = 'point.png';
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+						
+			context = theCanvas.getContext('2d');		
+		}		
+		
+		function drawScreen(){						
+			
+			context.fillStyle = "#eee";	
+			context.fillRect(0,0,theCanvas.width,theCanvas.height);
+			context.strokeStyle = "#000";
+			context.strokeRect(1,1,theCanvas.width-2,theCanvas.height-2);		
+			
+			console.log(ball.velocityy);
+			
+			ball.velocityx-=ball.velocityx*friction;
+			ball.velocityy+=gravity;
+			
+			console.log();
+			
+			if((ball.y+radius)>theCanvas.height){
+								
+				ball.velocityy = -(ball.velocityy)*elasticity;									
+			
+			}
+			
+			ball.x+= ball.velocityx;
+			ball.y+= ball.velocityy;		
+			
+			points.push({x:ball.x,y:ball.y});
+			
+			for(var i=0;i<points.length;i++){
+			
+				context.drawImage(pointImg,points[i].x,points[i].y,1,1);
+			
+			}
+		
+			context.fillStyle="#000"
+			context.beginPath();
+			context.arc(ball.x,ball.y,5,0,Math.PI*2,true);
+			context.closePath();
+			context.fill();
+			
+		}
+		
+		starUp();
+		
+		function starUp(){
+		
+			setInterval(drawScreen,33);
+		
+		}
+			
+	}	
+</script>
+	
+</body>
+</html>

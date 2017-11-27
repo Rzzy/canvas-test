@@ -1,0 +1,99 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" height="1000" width="1000">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){
+		
+		var theCanvas = null,		    
+			tileSheet = new Image(),
+			animationFrames = [1,2,3,4,5,6,7,8]
+			frameIndex = 0,
+			sourceX = 0,
+			sourceY = 0,
+			x=50,
+			y=50
+			dx=0,
+			dy=-1,
+			mapOffset = -1,
+			mapRows = 10,
+			mapCols = 10,
+			tileId = 0,
+			tileMap = [
+			[53,68,68,68,70,68,68,68,68,68],
+			[70,70,70,70,70,70,70,70,70,70],
+			[53,70,31,70,31,70,31,31,70,53],
+			[53,31,70,70,31,70,70,31,70,53],
+			[53,70,70,70,31,31,70,31,70,53],
+			[53,70,70,31,70,70,70,31,70,53],
+			[53,70,70,70,70,70,70,31,70,53],
+			[70,70,31,70,31,70,31,70,70,70],
+			[53,70,70,70,70,70,70,70,70,53],
+			[53,67,67,67,70,67,67,67,67,53]
+			];
+		
+		tileSheet.addEventListener('load',eventShipLoaded,false);
+			
+		tileSheet.src = "thank2.png";	
+		
+		function eventShipLoaded(){
+		
+			drawScreen();		
+		
+		}	
+				
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+				theCanvas=document.getElementById('canvas');
+				context = theCanvas.getContext('2d');		
+		}
+		
+		drawScreen();
+		
+		function drawScreen(){
+					
+			for(var rowCtr=0;rowCtr<mapRows;rowCtr++){
+			
+				for(var colCtr=0;colCtr<mapCols;colCtr++){
+				
+					tileId = tileMap[rowCtr][colCtr]+mapOffset;
+					sourceX = Math.floor(tileId%22)*32;	
+					sourceY = Math.floor(tileId/22)*32;
+					
+					context.drawImage(tileSheet,sourceX,sourceY,32,32,colCtr*32,rowCtr*32,32,32);
+				}
+			
+			}
+				
+		}
+			
+	}
+</script>
+	
+</body>
+</html>

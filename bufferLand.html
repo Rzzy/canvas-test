@@ -1,0 +1,137 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" width="500px" height="900px">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	var shipImg;
+	
+	function eventWindowLoaded(){
+		
+		//canvasApp();
+		shipImg = new Image();
+		shipImg.src = "1945.png";
+		shipImg.onload = eventAssetsLoaded;
+		
+	}	
+	
+	function eventAssetsLoaded(){
+	
+		canvasApp();
+		
+	}
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){		
+		
+		var theCanvas = null,
+			context = null,
+			easeValue = 0.05,
+			p1 = {x:240,y:-20},
+			p2 = {x:240,y:835},
+			ball = {x:p1.x,y:p1.y,endx:p2.x,endy:p2.y,visibilitx:0,visibility:0},
+			pointImg = new Image(),
+			points = [];
+		
+		
+			
+		pointImg.src = 'point.png';
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+				theCanvas=document.getElementById('canvas'),
+				context = theCanvas.getContext('2d');		
+		}		
+		
+		function drawScreen(){			
+			
+			context.fillStyle = "#eee";	
+			context.fillRect(0,0,theCanvas.width,theCanvas.height);
+			context.strokeStyle = "#000";
+			context.strokeRect(1,1,theCanvas.width-2,theCanvas.height-2);		
+			
+			visibility = (ball.endy - ball.y)*easeValue;
+			
+			ball.y += visibility;
+			
+			points.push({x:ball.x,y:ball.y});
+			
+			for(var i=0;i<points.length;i++){
+			
+				context.drawImage(pointImg,points[i].x,points[i].y,1,1);
+			
+			}
+			
+			context.drawImage(shipImg,301,103,65,65,ball.x-32.5,ball.y,65,65);
+			
+		}
+		
+		starUp();
+		
+		function starUp(){
+		
+			setInterval(drawScreen,33);
+		
+		}
+			
+	}	
+
+
+	function fun(){
+
+		this.info = {
+
+			name:"Perter"
+
+		}
+
+	};
+
+	fun.prototype = {
+
+		info:{
+
+			name:"Perter"
+
+		}
+
+	}
+	
+	var a = new fun();
+	var b = new fun();
+
+	a.info.name = "Jack";
+	b.info.name = "Tom";
+
+	console.log(a.info.name);
+	console.log(b.info.name);
+
+
+
+
+
+
+
+
+
+	
+</script>
+	
+</body>
+</html>

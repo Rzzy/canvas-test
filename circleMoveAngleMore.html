@@ -1,0 +1,131 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" width="500px" height="500px">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){		
+		
+		var theCanvas = null,
+			context = null,
+			numBalls = 100,
+			maxSize = 8,
+			minSize = 5,
+			maxSpeed = maxSize+5,
+			balls = [],
+			tempBall,
+			tempX,
+			tempY,
+			tempSpeed,
+			tempAngle,
+			tempRadius,
+			tempRadians,
+			tempXunits,
+			tempYunits;
+		
+			//pointImg.src = 'point.png';
+		
+			if(!canvasSupport()){
+				
+				return;
+				
+			}
+			else{
+			
+					theCanvas=document.getElementById('canvas'),
+					context = theCanvas.getContext('2d');
+					
+					for(var i=0;i<numBalls;i++){
+			
+						tempRadius = Math.floor(Math.random()*maxSize)+minSize;
+						tempX = tempRadius*2+(Math.floor(Math.random()*theCanvas.width)-tempRadius*2);
+						tempY = tempRadius*2+(Math.floor(Math.random()*theCanvas.height)-tempRadius*2);
+						tempSpeed = maxSpeed - tempRadius;
+						tempAngle = Math.floor(Math.random()*360);
+						tempRadians = tempAngle*Math.PI/180;
+						tempXunits = Math.cos(tempRadians)*tempSpeed;
+						tempYunits = Math.sin(tempRadians)*tempSpeed;
+						
+						tempBall = {x:tempX,y:tempY,radius:tempRadius,angle:tempAngle,speed:tempSpeed,radians:tempRadians,xuints:tempXunits,yuints:tempYunits};
+						
+						balls.push(tempBall);	
+					}	
+			}				
+		
+		function drawScreen(){			
+			
+			context.fillStyle = "#eee";	
+			context.fillRect(0,0,theCanvas.width,theCanvas.height);
+			
+			context.strokeStyle = "#000";
+			context.strokeRect(1,1,theCanvas.width-2,theCanvas.height-2);					
+			
+			
+			for(var i=0;i<balls.length;i++){
+				
+				balls[i].x+= balls[i].xuints;
+				balls[i].y+= balls[i].yuints;
+				
+				context.fillStyle = "#000";
+				context.beginPath();
+				context.arc(balls[i].x,balls[i].y,balls[i].radius,0,Math.PI*2,true);
+				context.closePath();
+				context.fill();					
+				
+				if(balls[i].x >= theCanvas.width || balls[i].x <= 0){
+				
+					balls[i].angle = 180-balls[i].angle; 
+					updateBall(balls[i]);
+					
+				}
+				else if(balls[i].y >= theCanvas.height|| balls[i].y <=0){
+					
+					balls[i].angle = 360-balls[i].angle; 
+					updateBall(balls[i]);
+				
+				}	
+				
+			}						
+			
+		}
+		
+		starUp();
+		
+		function updateBall(ball){
+		
+			ball.radians = ball.angle*Math.PI/180;
+			ball.xuints = Math.cos(ball.radians)*ball.speed;
+			ball.yuints = Math.sin(ball.radians)*ball.speed;
+			
+			console.log("aaaaaa")
+		}
+		
+		function starUp(){
+		
+			setInterval(drawScreen,33);
+		
+		}
+			
+	}	
+</script>
+	
+</body>
+</html>

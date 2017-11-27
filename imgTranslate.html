@@ -1,0 +1,116 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" width="1680px" height="500px;">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){
+		
+		var theCanvas = null,
+		    context = null,
+			winWidth = 500,
+			winHeight = 500,
+			winX = 0,
+			winY = 0,
+			currentScale = 0.5,
+			minScale = 0.2,
+			maxScale = 3,
+			scaleIncrement = 0.1,
+			photo = new Image();
+		
+		photo.addEventListener('load',eventShipLoaded,false);
+			
+		photo.src = "photo.jpg";	
+		
+		function eventShipLoaded(){
+		
+			startUp();
+					
+		}	
+				
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+				theCanvas=document.getElementById('canvas'),
+				context = theCanvas.getContext('2d');		
+		}
+
+		function drawScreen(){
+			context.fillStyle = "#fff";
+			context.fillRect(0,0,1680,500);			
+			context.drawImage(photo,winX,winY,winWidth,winWidth,0,0,winWidth*currentScale,winWidth*currentScale);			
+			
+		}		
+		
+		function startUp(){
+			
+			setInterval(drawScreen,100)
+			
+		}
+		
+		document.onkeydown = function(e){
+		
+			e= e?e:window.event;
+			console.log(e.keyCode+"\n");
+			
+			switch(e.keyCode){
+			
+				case 37:
+					winX-=10;
+					if(winX<0)winX=0;
+				break;
+				
+				case 38:
+					winY+=10;
+					if(winY>photo.height-winHeight)winY=photo.height-winHeight;
+				break;
+				
+				case 39:
+					winX+=10;
+					if(winX>photo.width-winWidth)winX=photo.width-winWidth;
+				break;
+
+				case 40:
+					winY-=10;
+					if(winY>photo.height-winHeight)winY=photo.height-winHeight;
+				break;
+				
+				case 187:
+					currentScale+=scaleIncrement;
+					if(currentScale>3)currentScale=3;
+				break;
+
+				case 189:
+					currentScale-=scaleIncrement;
+					if(currentScale<0.2)currentScale=0.2;
+				break;	
+			}
+		}
+	}	
+</script>
+	
+</body>
+</html>

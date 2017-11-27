@@ -1,0 +1,111 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){
+		
+		var theCanvas = null,
+		    context = null,
+			count = 0,
+			tileSheet = new Image(),
+			animationFrames = [8,7,6,5,4,3,2,1]
+			frameIndex = 0,
+			sourceX = 0,
+			sourceY = 0,
+			x=50,
+			y=50
+			dx=1,
+			dy=0,
+			angleInRadians=0,
+			rotation=90;
+		
+		tileSheet.addEventListener('load',eventShipLoaded,false);
+			
+		tileSheet.src = "thank.png";	
+		
+		function eventShipLoaded(){
+		
+			setInterval(drawScreen,100);			
+		
+		}	
+				
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+			var theCanvas=document.getElementById('canvas'),
+				context = theCanvas.getContext('2d');		
+		}
+		
+		drawScreen();
+		
+		function drawScreen(){				
+			
+			x+=dx;
+			y+=dy;
+			
+			if(x>=268){
+				dx=-1;
+				rotation=-90;
+			}
+			if(x<=0){
+				dx=1;
+				rotation=90;
+			
+			}
+			
+			context.fillStyle = "#eee";	
+			context.fillRect(0,0,500,500);
+			
+			context.save();
+			context.setTransform(1,0,0,1,0,0);
+			
+			context.translate(x+16,y+16);
+			angleInRadians = rotation*Math.PI/180;
+			context.rotate(angleInRadians);
+			
+			context.drawImage(tileSheet,sourceX,sourceY,32,32,-16,-16,32,32);			
+			
+			sourceX = Math.floor(animationFrames[frameIndex]%8)*32;
+			sourceY = Math.floor(animationFrames[frameIndex]/8)*32;
+			
+			context.restore();
+			
+			frameIndex ++;
+			if(frameIndex==animationFrames.length){
+				
+				frameIndex = 0;
+				
+			}
+			
+		}
+			
+	}	
+</script>
+	
+</body>
+</html>

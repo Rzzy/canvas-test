@@ -1,0 +1,83 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){
+		
+		var theCanvas = null,
+		    context = null,
+			count = 0,
+			tileSheet = new Image();
+		
+		tileSheet.addEventListener('load',eventShipLoaded,false);
+			
+		tileSheet.src = "plane.png";	
+		
+		function eventShipLoaded(){
+		
+			starUp();
+			
+		
+		}	
+				
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+			var theCanvas=document.getElementById('canvas'),
+				context = theCanvas.getContext('2d');		
+		}
+		
+		
+		
+		
+		
+		drawScreen();
+		
+		function drawScreen(){
+			
+			context.fillStyle = "#eee";	
+			context.fillRect(0,0,500,500);
+			context.drawImage(tileSheet,32*count,0,32,64,50,50,64,64);
+			
+			count++;
+			if(count>1){
+				count = 0;
+			}
+				
+		}
+	
+		function starUp(){
+			
+			setInterval(drawScreen,24);
+			
+		}
+	}	
+</script>
+	
+</body>
+</html>

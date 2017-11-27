@@ -1,0 +1,127 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5画布实现液体效果</title>
+<META charset="utf-8">
+</head>
+<body>
+
+<canvas id="canvas" height="384" width="704" style="position:absolute;left:50px;top:0px;">123123</canvas>
+<canvas id="canvas2" height="384" width="704" style="position:absolute;left:50px;top:384px;">123123</canvas>
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	function eventWindowLoaded(){
+		
+		canvasApp();
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function canvasApp(){
+		
+		var theCanvas = null,		    
+			context = null,			
+			theCanvas2 = null,						
+			context2 = null,	
+			tileSheet = new Image()
+			mouseX = 0,
+			mouseY = 0
+			imgData = null;
+		
+		tileSheet.addEventListener('load',eventShipLoaded,false);
+			
+		tileSheet.src = "thank2.png";	
+		
+		function eventShipLoaded(){
+		
+			startUp();	
+		
+		}	
+				
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+				theCanvas=document.getElementById('canvas');
+				context = theCanvas.getContext('2d');
+				theCanvas2=document.getElementById('canvas2');
+				context2 = theCanvas2.getContext('2d');
+		}		
+		
+		function startUp(){
+						
+			context.drawImage(tileSheet,0,0);
+			context2.drawImage(theCanvas,0,64,64,64,0,0,64,64);
+				
+		}
+		
+		/*function onMouseMove(e){
+			
+			e = e?e:window.event;
+			
+			mouseX = e.clientX - theCanvas.offsetLeft;
+			mouseY = e.clientY - theCanvas.offsetTop;			
+			
+		}
+		
+		function onMouseClick(){
+		
+			var rows = 0,
+				cols = 0;
+		
+			console.log("click"+mouseX+","+mouseY);
+			
+			rows = Math.floor(mouseX/32);
+			cols = Math.floor(mouseY/32);				
+				
+			if(mouseY<384){
+					
+				tileId = cols*22+rows;				
+				highLightTile(tileId,rows,cols);
+			}
+			else{
+				
+				context.putImageData(imgData,rows*32,cols*32)
+			
+			}
+		}*/
+		
+		/*function highLightTile(tileId,x,y){
+			
+			context.fillStyle = "#aaa";
+			context.fillRect(0,0,704,768);			
+			context.drawImage(tileSheet,0,0);
+				
+			imgData = context.getImageData(x*32,y*32,32,32);
+
+			for(var i=1;i<imgData.data.length;i+=4){
+				
+				imgData.data[i]=0;
+				
+			}	
+			
+			var startX = Math.floor(tileId%22)*32,
+				startY = Math.floor(tileId/22)*32;
+			
+			context.strokeStyle = "red";
+			context.strokeRect(startX,startY,32,32);	
+			
+			
+		}
+		theCanvas.addEventListener('mousemove',onMouseMove,false);
+		theCanvas.addEventListener('click',onMouseClick,false);*/	
+	}
+</script>
+	
+</body>
+</html>

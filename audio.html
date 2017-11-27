@@ -1,0 +1,126 @@
+<!DOCTYPE>
+<html>	
+<head>
+<title>html5 video</title>
+<META charset="utf-8">
+</head>
+<body>
+<div style="position:absolute;top:50px;left:50px;">
+	<canvas id="canvas" width="960" height="400px">123123</canvas>
+</div>
+
+<script type="text/javascript">
+	window.addEventListener('load',eventWindowLoaded,false);
+	
+	var audioElement,
+		audioDiv;
+		
+	
+	
+	
+	function eventWindowLoaded(){
+		
+		audioElement = document.createElement("audio");
+		audioDiv = document.createElement("div");
+		
+		document.body.appendChild(audioDiv);
+		audioDiv.appendChild(audioElement);
+		
+		//audioDiv.setAttribute("style","display:none");
+		
+		var audioType = supporteAudioFormat(audioElement);
+		
+		if(audioType==""){
+			
+			document.write("没有您的浏览器支持的视频格式！");
+			alert("没有您的浏览器支持的视频格式！");
+			
+		}
+		
+		audioElement.setAttribute("src","song."+audioType);
+		audioElement.addEventListener("canplaythrough",audioLoaded,false);
+		
+	}	
+	
+	function canvasSupport(){
+		
+		return true;
+		
+	}
+	
+	function supporteAudioFormat(audio){
+		
+		var returnExtension = "";
+		
+		if(audio.canPlayType("audio/wav") =="probably"||audio.canPlayType("audio/wav") =="maybe"){
+		
+			returnExtension = "wav";
+			
+		}
+		else if(audio.canPlayType("audio/mp3") =="probably"||audio.canPlayType("audio/mp3") =="maybe"){
+		
+			returnExtension = "mp3";
+		
+		}
+		else if(audio.canPlayType("audio/ogg") =="probably"||audio.canPlayType("audio/ogg") =="maybe"){
+		
+			returnExtension = "ogg";
+		
+		}
+		
+		return returnExtension;
+	}
+	
+	function audioLoaded(){
+	
+		canvasApp();
+	
+	}
+	
+	function canvasApp(){		
+		
+		if(!canvasSupport()){
+			
+			return;
+			
+		}
+		else{
+		
+			var theCanvas=document.getElementById('canvas'),
+				context = theCanvas.getContext('2d');		
+		}		
+	
+		function drawScreen(){		
+			
+			context.fillStyle = "#ffffaa";
+			context.fillRect(0,0,theCanvas.width,theCanvas.height);
+			context.strokeStyle = "#000";
+			context.strokeRect(5,5,theCanvas.width-10,theCanvas.height-10);			
+			
+			context.font = "14px blod sans";
+			context.fillStyle = "#e50000";			
+			context.fillText("current Time:"+audioElement.currentTime,17,44);
+			context.fillText("loop:"+audioElement.loop,17,68);
+			context.fillText("autoPlay:"+audioElement.autoplay,17,92);
+			context.fillText("Muted:"+audioElement.muted,17,116);
+			context.fillText("controls:"+audioElement.controls,17,140);
+			context.fillText("volume:"+audioElement.volume,17,164);
+			context.fillText("duration:"+audioElement.duration,17,188);
+			context.fillText("Paused:"+audioElement.paused,17,212);
+			context.fillText("Ended:"+audioElement.ended,17,236);
+			context.fillText("Source:"+audioElement.currentSrc,17,260);
+			context.fillText("Can play OGG:"+audioElement.canPlayType("audio/ogg"),17,284);
+			context.fillText("Can play WAV:"+audioElement.canPlayType("audio/wav"),17,308);
+			context.fillText("Can play MP3:"+audioElement.canPlayType("audio/mp3"),17,332);
+			
+		}
+		
+		audioElement.play();
+		
+		setInterval(drawScreen,24);
+		
+	}	
+</script>
+	
+</body>
+</html>
